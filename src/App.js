@@ -1,25 +1,41 @@
 import logo from './logo.svg';
 import './App.css';
+import {useState} from "react";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [task, setTask] = useState('Alice')
+    const [tasks, setTasks] = useState([{id: 1, title: 'first task', done:false}])
+    const inputOnChange = (e) => {
+        console.log(e.target.value)
+        setTask(e.target.value)
+    };
+    const addTask = () => {
+        setTasks([...tasks, {id: Math.random(), title: task, done:false}])
+        setTask('')
+    };
+    const onDoneToggle = (id) =>{
+        console.log(id)
+    const updatedTasks = tasks.map(el => el.id === id ?{
+        ...el,
+        done:!el.done
+    }:el);
+    setTasks(updatedTasks)
+    }
+    return (
+        <div>
+            <h1>{task}</h1>
+            <input value={task} onChange={inputOnChange}/>
+            <button onClick={addTask}>Add Task</button>
+            <ul>
+                {
+                    tasks.map(el => <li key={el.id} className={el.done?'done':' '}>
+                        {el.title}{el.done?'completed':'uncompleted'}
+                        <button onClick={() => onDoneToggle(el.id)}>{el.done ? 'Mark as uncompleted':'Mark as completed'}</button></li>)
+                }
+            </ul>
+        </div>
+    );
 }
 
 export default App;
+
