@@ -28,11 +28,23 @@ function App() {
             <button onClick={addTask}>Add Task</button>
             <ul>
                 {
-                    tasks.map(el => <li key={el.id} className={el.done?'done':' '}>
+                    tasks.filter(el => !el.done).map(el => <li key={el.id} className={el.done?'done':' '}>
                         {el.title}{el.done?'completed':'uncompleted'}
                         <button onClick={() => onDoneToggle(el.id)}>{el.done ? 'Mark as uncompleted':'Mark as completed'}</button></li>)
                 }
             </ul>
+<hr/>
+
+            <ul>
+                {
+                    tasks.filter(el => el.done).map(el => <li key={el.id} className={el.done?'done':' '}>
+                        {el.title}{el.done?'completed':'uncompleted'}
+                        <button onClick={() => onDoneToggle(el.id)}>{el.done ? 'Mark as uncompleted':'Mark as completed'}</button></li>)
+                }
+            </ul>
+
+
+
         </div>
     );
 }
